@@ -647,26 +647,97 @@ a {
     background: linear-gradient(to bottom, transparent, var(--gray-200), transparent);
 }
 
-/* --- Weather Section --- */
-.weather-section {
+/* --- Academic Calendar Section --- */
+.calendar-section {
     padding: 0 var(--space-xl) var(--space-3xl);
     max-width: 900px;
     margin: 0 auto;
 }
 
-.weather-container {
+.calendar-container {
     background: var(--white);
     border: 1px solid var(--gray-200);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-md);
     overflow: hidden;
-    padding: var(--space-sm);
+    padding: var(--space-xl);
     transition: var(--transition-base);
 }
 
-.weather-container:hover {
+.calendar-container:hover {
     box-shadow: var(--shadow-lg);
     border-color: var(--cu-red-200);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.calendar-header h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--gray-900);
+}
+
+.calendar-badge {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--cu-red-600);
+    background: var(--cu-red-50);
+    border: 1px solid var(--cu-red-100);
+    border-radius: var(--radius-full);
+}
+
+.calendar-events {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.event-item {
+    display: flex;
+    align-items: center;
+    padding: var(--space-md);
+    background: var(--gray-50);
+    border-left: 4px solid var(--cu-red-500);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    transition: var(--transition-fast);
+}
+
+.event-item:hover {
+    background: var(--cu-red-50);
+    transform: translateX(4px);
+}
+
+.event-date {
+    min-width: 100px;
+    padding-right: var(--space-md);
+    border-right: 1px solid var(--gray-200);
+    margin-right: var(--space-md);
+}
+
+.event-date strong {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--gray-900);
+}
+
+.event-date span {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+}
+
+.event-details p {
+    font-weight: 600;
+    color: var(--gray-800);
+    font-size: 0.95rem;
 }
 
 /* --- Footer --- */

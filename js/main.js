@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Card Tilt Effect ---
     initCardTilt();
+
+    // --- Academic Calendar ---
+    initAcademicCalendar();
 });
 
 // ===================
@@ -185,5 +188,67 @@ function initCardTilt() {
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
         });
+    });
+}
+
+// ===================
+// Academic Calendar
+// ===================
+function initAcademicCalendar() {
+    const calendarContainer = document.getElementById('calendar-events');
+    if (!calendarContainer) return;
+
+    // Academic Calendar Events (from image)
+    const allEvents = [
+        { date: '2026-07-01', displayDate: '01-07-2026', day: 'Wed', desc: 'Start of Registration 2nd Year onwards Students [All Programs] for ODD Semester' },
+        { date: '2026-07-14', displayDate: '14-07-2026', day: 'Tue', desc: 'Start of Semester for 2nd Year and 4th Year (All Programs) except MBA 2nd Year' },
+        { date: '2026-07-15', displayDate: '15-07-2026', day: 'Wed', desc: 'Start of Semester for 3rd Year and 5th Year (All Programs)' },
+        { date: '2026-07-20', displayDate: '20-07-2026', day: 'Mon', desc: 'Orientation & Induction 1st Year [All Programs] Batch I' },
+        { date: '2026-07-21', displayDate: '21-07-2026', day: 'Tue', desc: 'Start of Semester-1st Year [All Programs] Batch I' },
+        { date: '2026-07-24', displayDate: '24-07-2026', day: 'Fri', desc: 'Start of Semester, MBA 2nd Year' },
+        { date: '2026-08-24', displayDate: '24-08-2026', day: 'Mon', desc: 'Orientation & Induction 1st Year [All Programs] Batch II' },
+        { date: '2026-08-25', displayDate: '25-08-2026', day: 'Tue', desc: 'Start of Semester, 1st Year [All Programs] Batch II' },
+        { date: '2026-09-18', displayDate: '18-09-2026', day: 'Fri', desc: 'Fresher\'s Party-2026 Intake [All Programs]' },
+        { date: '2026-09-26', displayDate: '26-09-2026', day: 'Sat', desc: 'Orientation & Induction [International Students] 1st Year [All Programs]' },
+        { date: '2026-09-28', displayDate: '28-09-2026', day: 'Mon', desc: 'Practical IST All Years [All Programs]' },
+        { date: '2026-10-05', displayDate: '05-10-2026', day: 'Mon', desc: 'Value Added Courses (VAC) Week' },
+        { date: '2026-10-12', displayDate: '12-10-2026', day: 'Mon', desc: 'In Semester Test 2 [IST-2] All Years [All Programs]' },
+        { date: '2026-11-09', displayDate: '09-11-2026', day: 'Mon', desc: 'Diwali Break for Students' },
+        { date: '2026-11-13', displayDate: '13-11-2026', day: 'Fri', desc: 'Last Teaching Day - All Years' }
+    ];
+
+    const today = new Date();
+    // Reset time part to midnight for accurate day comparison
+    today.setHours(0, 0, 0, 0);
+
+    // Filter events that are today or in the future
+    const upcomingEvents = allEvents.filter(event => {
+        const eventDate = new Date(event.date);
+        return eventDate >= today;
+    });
+
+    // Get the next 3 events
+    const nextEvents = upcomingEvents.slice(0, 3);
+
+    calendarContainer.innerHTML = '';
+
+    if (nextEvents.length === 0) {
+        calendarContainer.innerHTML = '<p style="color: var(--gray-500); padding: 10px 0;">No upcoming events currently scheduled.</p>';
+        return;
+    }
+
+    nextEvents.forEach(event => {
+        const eventHtml = `
+            <div class="event-item">
+                <div class="event-date">
+                    <strong>${event.displayDate}</strong>
+                    <span>${event.day}</span>
+                </div>
+                <div class="event-details">
+                    <p>${event.desc}</p>
+                </div>
+            </div>
+        `;
+        calendarContainer.innerHTML += eventHtml;
     });
 }
