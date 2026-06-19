@@ -10,210 +10,276 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
     <!-- Animated Background -->
     <div class="bg-wrapper">
         <div class="bg-gradient"></div>
         <div class="bg-mesh"></div>
-        <div class="particles" id="particles"></div>
-        <div class="aurora aurora-1"></div>
-        <div class="aurora aurora-2"></div>
-        <div class="aurora aurora-3"></div>
+        <canvas id="particleCanvas"></canvas>
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
     </div>
 
-    <!-- Navigation Bar -->
+    <!-- Interactive Student Character -->
+    <div class="mascot-wrapper" id="mascotWrapper">
+        <div class="mascot" id="mascot">
+            <!-- Speech Bubble -->
+            <div class="speech-bubble" id="speechBubble">
+                <span id="speechText">Hey there! Welcome to CUIMS! 👋</span>
+            </div>
+
+            <div class="student" id="mascotBody">
+                <!-- Hair -->
+                <div class="student__hair">
+                    <div class="hair__fringe"></div>
+                    <div class="hair__side hair__side--left"></div>
+                    <div class="hair__side hair__side--right"></div>
+                </div>
+                <!-- Head -->
+                <div class="student__head">
+                    <!-- Eyebrows -->
+                    <div class="student__brow student__brow--left"></div>
+                    <div class="student__brow student__brow--right"></div>
+                    <!-- Eyes -->
+                    <div class="student__eye student__eye--left" id="eyeLeft">
+                        <div class="student__pupil" id="pupilLeft"></div>
+                        <div class="student__eye-shine"></div>
+                    </div>
+                    <div class="student__eye student__eye--right" id="eyeRight">
+                        <div class="student__pupil" id="pupilRight"></div>
+                        <div class="student__eye-shine"></div>
+                    </div>
+                    <!-- Blush -->
+                    <div class="student__blush student__blush--left"></div>
+                    <div class="student__blush student__blush--right"></div>
+                    <!-- Nose -->
+                    <div class="student__nose"></div>
+                    <!-- Mouth -->
+                    <div class="student__mouth" id="mascotMouth"></div>
+                </div>
+                <!-- Neck -->
+                <div class="student__neck"></div>
+                <!-- Torso (CU Hoodie) -->
+                <div class="student__torso">
+                    <div class="hoodie__collar"></div>
+                    <div class="hoodie__logo">CU</div>
+                    <div class="hoodie__pocket"></div>
+                </div>
+                <!-- Arms -->
+                <div class="student__arm student__arm--left" id="armLeft">
+                    <div class="student__hand student__hand--left"></div>
+                </div>
+                <div class="student__arm student__arm--right" id="armRight">
+                    <div class="student__hand student__hand--right"></div>
+                </div>
+                <!-- Legs -->
+                <div class="student__legs">
+                    <div class="student__leg student__leg--left"></div>
+                    <div class="student__leg student__leg--right"></div>
+                </div>
+                <!-- Shoes -->
+                <div class="student__shoes">
+                    <div class="student__shoe student__shoe--left"></div>
+                    <div class="student__shoe student__shoe--right"></div>
+                </div>
+            </div>
+            <!-- Shadow -->
+            <div class="mascot__shadow" id="mascotShadow"></div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
     <nav class="navbar" id="navbar">
         <div class="navbar__brand">
             <img src="img/cu_logo.png" alt="Chandigarh University" class="navbar__logo">
             <div class="navbar__divider"></div>
-            <span class="navbar__cuims-label">CUIMS</span>
+            <span class="navbar__label">CUIMS</span>
         </div>
         <div class="navbar__links">
-            <a href="https://www.cuchd.in" target="_blank" class="nav-link">University Home</a>
-            <a href="https://www.cuchd.in/contact-us.php" target="_blank" class="nav-link">Contact</a>
+            <a href="https://www.cuchd.in" target="_blank" class="nav-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                University Home
+            </a>
             <a href="#" class="nav-link nav-link--help" id="helpBtn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                 Help
             </a>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="main">
+    <main class="main" id="mainContent">
+
         <!-- Hero Section -->
         <section class="hero">
-            <div class="hero__badge animate-in" data-delay="0">
-                <span class="badge-dot"></span>
-                Welcome to CUIMS
+            <div class="hero__badge anim-in" data-delay="0">
+                <span class="badge-pulse"></span>
+                Mohali Campus
             </div>
-            <h1 class="hero__title animate-in" data-delay="100">
+            <h1 class="hero__title anim-in" data-delay="100">
                 Your Gateway to<br>
-                <span class="gradient-text">Academic Excellence</span>
+                <span class="hero__gradient">Academic Excellence</span>
             </h1>
-            <p class="hero__desc animate-in" data-delay="200">
-                Access all university services in one place. Select your portal below to get started.
+            <p class="hero__subtitle anim-in" data-delay="200">
+                Select your portal to access all university services securely.
             </p>
         </section>
 
-        <!-- Login Cards -->
-        <section class="cards-section">
-            <div class="cards-grid">
-                <!-- Student Login -->
-                <div class="card animate-in" data-delay="300">
-                    <div class="card__glow"></div>
-                    <div class="card__inner">
-                        <div class="card__icon card__icon--student">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                                <path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/>
-                            </svg>
-                        </div>
-                        <div class="card__badge">Most Used</div>
-                        <h3 class="card__title">Student / Parent</h3>
-                        <p class="card__desc">
-                            Access student services, track academic progress, view results, and stay updated with the latest university announcements.
-                        </p>
-                        <div class="card__features">
-                            <span class="feature-tag">Results</span>
-                            <span class="feature-tag">Attendance</span>
-                            <span class="feature-tag">Fees</span>
-                        </div>
-                        <a href="https://students.cuchd.in" target="_blank" class="card__btn">
-                            <span>Login Now</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </a>
-                    </div>
-                </div>
+        <!-- Portal Cards -->
+        <section class="portals">
+            <div class="portals__grid">
 
-                <!-- LMS Login -->
-                <div class="card animate-in" data-delay="400">
-                    <div class="card__glow"></div>
-                    <div class="card__inner">
-                        <div class="card__icon card__icon--lms">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                                <line x1="8" y1="21" x2="16" y2="21"/>
-                                <line x1="12" y1="17" x2="12" y2="21"/>
-                                <path d="M7 8h4M7 11h8"/>
-                            </svg>
-                        </div>
-                        <h3 class="card__title">LMS Portal</h3>
-                        <p class="card__desc">
-                            Access the Learning Management System for course materials, assignments, lectures, and interactive learning resources.
-                        </p>
-                        <div class="card__features">
-                            <span class="feature-tag">Courses</span>
-                            <span class="feature-tag">Lectures</span>
-                            <span class="feature-tag">Assignments</span>
-                        </div>
-                        <a href="https://lms.cuchd.in" target="_blank" class="card__btn">
-                            <span>Login Now</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </a>
+                <!-- Student Card -->
+                <a href="https://students.cuchd.in" target="_blank" class="clay-card clay-card--primary anim-in mascot-trigger" data-delay="300" data-reaction="excited" data-speech="Student portal! 📚 Let's check those grades!">
+                    <div class="clay-card__icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg>
                     </div>
-                </div>
+                    <span class="clay-card__badge">Most Used</span>
+                    <h3 class="clay-card__title">Student / Parent</h3>
+                    <p class="clay-card__desc">Access results, attendance, fees, announcements and all student services.</p>
+                    <div class="clay-card__tags">
+                        <span>Results</span><span>Attendance</span><span>Fees</span>
+                    </div>
+                    <div class="clay-btn clay-btn--primary">
+                        <span>Login Now</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                </a>
 
-                <!-- Staff Login -->
-                <div class="card animate-in" data-delay="500">
-                    <div class="card__glow"></div>
-                    <div class="card__inner">
-                        <div class="card__icon card__icon--staff">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                                <circle cx="12" cy="7" r="4"/>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                                <path d="M21 21v-2a4 4 0 0 0-3-3.87"/>
-                            </svg>
-                        </div>
-                        <h3 class="card__title">Staff Portal</h3>
-                        <p class="card__desc">
-                            Faculty and staff management portal. Access payroll, leave management, schedules, and official administrative services.
-                        </p>
-                        <div class="card__features">
-                            <span class="feature-tag">Payroll</span>
-                            <span class="feature-tag">Schedule</span>
-                            <span class="feature-tag">Leave</span>
-                        </div>
-                        <a href="https://staff.cuchd.in" target="_blank" class="card__btn">
-                            <span>Login Now</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </a>
+                <!-- LMS Card -->
+                <a href="https://lms.cuchd.in" target="_blank" class="clay-card clay-card--dark anim-in mascot-trigger" data-delay="400" data-reaction="wave" data-speech="LMS time! 💻 Don't forget your assignments!">
+                    <div class="clay-card__icon clay-card__icon--dark">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M7 8h4M7 11h8"/></svg>
                     </div>
-                </div>
+                    <h3 class="clay-card__title">LMS Portal</h3>
+                    <p class="clay-card__desc">Course materials, assignments, lectures, and interactive learning resources.</p>
+                    <div class="clay-card__tags">
+                        <span>Courses</span><span>Lectures</span><span>Assignments</span>
+                    </div>
+                    <div class="clay-btn clay-btn--dark">
+                        <span>Login Now</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                </a>
 
-                <!-- Admission Login -->
-                <div class="card animate-in" data-delay="600">
-                    <div class="card__glow"></div>
-                    <div class="card__inner">
-                        <div class="card__icon card__icon--admission">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                <polyline points="14 2 14 8 20 8"/>
-                                <line x1="12" y1="18" x2="12" y2="12"/>
-                                <line x1="9" y1="15" x2="15" y2="15"/>
-                            </svg>
-                        </div>
-                        <h3 class="card__title">Admissions</h3>
-                        <p class="card__desc">
-                            Admission staff portal for managing applications, enrollment processes, document verification, and admission-related tasks.
-                        </p>
-                        <div class="card__features">
-                            <span class="feature-tag">Applications</span>
-                            <span class="feature-tag">Enrollment</span>
-                            <span class="feature-tag">Docs</span>
-                        </div>
-                        <a href="https://admissions.cuchd.in" target="_blank" class="card__btn">
-                            <span>Login Now</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </a>
+                <!-- Staff Card -->
+                <a href="https://staff.cuchd.in" target="_blank" class="clay-card anim-in mascot-trigger" data-delay="500" data-reaction="salute" data-speech="Staff portal! 🫡 Respect to our teachers!">
+                    <div class="clay-card__icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     </div>
+                    <h3 class="clay-card__title">Staff Portal</h3>
+                    <p class="clay-card__desc">Faculty payroll, leave management, schedules, and administrative services.</p>
+                    <div class="clay-card__tags">
+                        <span>Payroll</span><span>Schedule</span><span>Leave</span>
+                    </div>
+                    <div class="clay-btn clay-btn--primary">
+                        <span>Login Now</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                </a>
+
+                <!-- Admission Card -->
+                <a href="https://registration.cuchd.in/login.aspx" target="_blank" class="clay-card clay-card--dark anim-in mascot-trigger" data-delay="600" data-reaction="jump" data-speech="New admission! 🎉 Welcome to the CU family!">
+                    <div class="clay-card__icon clay-card__icon--dark">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                    </div>
+                    <h3 class="clay-card__title">Admissions</h3>
+                    <p class="clay-card__desc">Applications, enrollment, document verification, and admission tasks.</p>
+                    <div class="clay-card__tags">
+                        <span>Applications</span><span>Enrollment</span><span>Docs</span>
+                    </div>
+                    <div class="clay-btn clay-btn--dark">
+                        <span>Login Now</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="stats anim-in" data-delay="700">
+            <div class="stats__bar">
+                <div class="stat-item">
+                    <span class="stat-item__num" data-target="32000">0</span>
+                    <span class="stat-item__label">Active Students</span>
+                </div>
+                <div class="stat-sep"></div>
+                <div class="stat-item">
+                    <span class="stat-item__num" data-target="1200">0</span>
+                    <span class="stat-item__label">Faculty Members</span>
+                </div>
+                <div class="stat-sep"></div>
+                <div class="stat-item">
+                    <span class="stat-item__num" data-target="200">0</span>
+                    <span class="stat-item__label">Programs Offered</span>
+                </div>
+                <div class="stat-sep"></div>
+                <div class="stat-item">
+                    <span class="stat-item__num" data-target="99">0</span>
+                    <span class="stat-item__label">Uptime %</span>
                 </div>
             </div>
         </section>
 
-        <!-- Quick Stats -->
-        <section class="stats-section animate-in" data-delay="700">
-            <div class="stats-bar">
-                <div class="stat">
-                    <span class="stat__number" data-target="32000">0</span>
-                    <span class="stat__label">Active Students</span>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat">
-                    <span class="stat__number" data-target="1200">0</span>
-                    <span class="stat__label">Faculty Members</span>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat">
-                    <span class="stat__number" data-target="200">0</span>
-                    <span class="stat__label">Programs Offered</span>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat">
-                    <span class="stat__number" data-target="99">0</span>
-                    <span class="stat__label">Uptime %</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Academic Calendar Section -->
-        <section class="calendar-section animate-in" data-delay="800">
+        <!-- Academic Calendar -->
+        <section class="calendar-section anim-in" data-delay="800">
             <div class="calendar-container">
                 <div class="calendar-header">
-                    <h3>Upcoming Academic Events</h3>
+                    <h3>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red-600)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        Upcoming Academic Events
+                    </h3>
                     <span class="calendar-badge">Session 2026-27</span>
                 </div>
-                <div id="calendar-events" class="calendar-events">
-                    <!-- Events injected by JS -->
+                <div id="calendarEvents" class="calendar-events"></div>
+            </div>
+        </section>
+
+        <!-- App Download -->
+        <section class="app-download anim-in" data-delay="850">
+            <div class="app-download__inner">
+                <div class="app-download__text">
+                    <h3>Get the CUIMS App</h3>
+                    <p>Access your portal on the go with the official mobile app.</p>
+                </div>
+                <div class="app-download__buttons">
+                    <a href="https://play.google.com/store/apps/details?id=com.chandigarhuniversity.cuims" target="_blank" class="store-btn mascot-trigger" data-reaction="excited" data-speech="Download our app! 📱 So much easier on the go!">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 0 1 0 1.38l-2.302 2.302L15.196 12l2.502-2.492zM5.864 2.658L16.8 8.991l-2.302 2.302L5.864 2.658z"/></svg>
+                        Google Play
+                    </a>
+                    <a href="https://apps.apple.com/in/app/cuims/id6749882202" target="_blank" class="store-btn mascot-trigger" data-reaction="wave" data-speech="Apple fans, this one's for you! 🍎">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                        App Store
+                    </a>
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- Help Modal -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal-box">
+            <button class="modal-box__close" id="closeModal">&times;</button>
+            <h2>Need Help?</h2>
+            <div class="help-list">
+                <div class="help-list__item"><span class="help-ico">🔑</span><div><h4>Forgot Password?</h4><p>Reset your CUIMS password. Wait 20 minutes before logging into LMS.</p></div></div>
+                <div class="help-list__item"><span class="help-ico">📧</span><div><h4>IT Support</h4><p>Email: <a href="mailto:itsupport@cuchd.in">itsupport@cuchd.in</a></p></div></div>
+                <div class="help-list__item"><span class="help-ico">📞</span><div><h4>Helpdesk</h4><p>Call: +91-160-3051001</p></div></div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -226,37 +292,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Help Modal -->
-    <div class="modal-overlay" id="helpModal">
-        <div class="modal">
-            <button class="modal__close" id="closeModal">&times;</button>
-            <h2 class="modal__title">Need Help?</h2>
-            <div class="modal__body">
-                <div class="help-item">
-                    <div class="help-icon">🔑</div>
-                    <div>
-                        <h4>Forgot Password?</h4>
-                        <p>Reset your CUIMS password and wait 20 minutes before logging into LMS.</p>
-                    </div>
-                </div>
-                <div class="help-item">
-                    <div class="help-icon">📧</div>
-                    <div>
-                        <h4>IT Support</h4>
-                        <p>Email: <a href="mailto:itsupport@cuchd.in">itsupport@cuchd.in</a></p>
-                    </div>
-                </div>
-                <div class="help-item">
-                    <div class="help-icon">📞</div>
-                    <div>
-                        <h4>Helpdesk</h4>
-                        <p>Call: +91-160-3051001</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="js/main.js"></script>
 </body>
